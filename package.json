@@ -1,0 +1,71 @@
+{
+  "name": "wavescript",
+  "version": "1.1.0",
+  "description": "WaveScript — Transcribe & Translate",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:src": "node build-sources.js",
+    "prestart": "node build-sources.js",
+    "start": "electron .",
+    "dev": "node build-sources.js --watch & electron .",
+    "dev:win": "start /b node build-sources.js --watch & electron .",
+    "build:win": "node build-sources.js && electron-builder --win",
+    "build:win-portable": "node build-sources.js && electron-builder --win portable",
+    "build:mac": "node build-sources.js && electron-builder --mac",
+    "build:linux": "node build-sources.js && electron-builder --linux",
+    "build:all": "node build-sources.js && electron-builder --win --mac --linux"
+  },
+  "author": "WaveScript",
+  "license": "MIT",
+  "dependencies": {
+    "deepl-node": "^1.14.0",
+    "ffmpeg-static": "^5.2.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.wavescript.app",
+    "productName": "WaveScript",
+    "directories": { "output": "installer" },
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "WaveScript"
+    },
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": ["x64", "arm64"] }
+      ],
+      "icon": "assets/icon.png",
+      "category": "public.app-category.productivity"
+    },
+    "linux": {
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] },
+        { "target": "deb", "arch": ["x64"] }
+      ],
+      "icon": "assets/icon.png",
+      "category": "AudioVideo"
+    },
+    "files": [
+      "dist/**/*",
+      "preload.js",
+      "package.json",
+      "node_modules/ffmpeg-static/**/*",
+      "node_modules/deepl-node/**/*"
+    ],
+    "asarUnpack": [
+      "node_modules/ffmpeg-static/**/*"
+    ]
+  }
+}

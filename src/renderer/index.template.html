@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>WaveScript</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app">
+
+  <div class="titlebar">
+    <svg class="titlebar-logo" width="34" height="34" viewBox="0 0 512 512">
+      <defs><linearGradient id="tbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a8cce8"/><stop offset="100%" stop-color="#7bafd4"/></linearGradient></defs>
+      <rect x="108" y="222" width="36" height="100" rx="18" fill="url(#tbg)"/>
+      <rect x="168" y="178" width="36" height="188" rx="18" fill="url(#tbg)"/>
+      <rect x="228" y="138" width="36" height="268" rx="18" fill="url(#tbg)"/>
+      <rect x="288" y="172" width="36" height="200" rx="18" fill="url(#tbg)"/>
+      <rect x="348" y="210" width="36" height="124" rx="18" fill="url(#tbg)"/>
+    </svg>
+    <span class="titlebar-brand">WaveScript</span>
+  </div>
+
+  <div class="main-area">
+    <nav class="sidebar" id="main-sidebar" style="display:none;">
+      <div class="sidebar-top">
+        <button class="sidebar-btn active" data-tab="transcribe" title="Transcribe"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>
+        <button class="sidebar-btn" data-tab="translate" title="Translate"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></button>
+        <div class="sidebar-divider"></div>
+        <button class="sidebar-btn" data-tab="models" title="Models"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></button>
+        <button class="sidebar-btn" data-tab="settings" title="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="sidebar-btn" id="theme-toggle" title="Toggle theme"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+      </div>
+    </nav>
+
+    <div class="content">
+
+      <!-- ═══ WIZARD ═══ -->
+      <div id="wizard" class="panel active">
+        <div class="wizard" style="position:relative;">
+          <!-- Wizard logo — visible on all steps -->
+          <div class="wizard-logo">
+            <svg width="64" height="64" viewBox="0 0 512 512">
+              <defs><linearGradient id="wlg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a8cce8"/><stop offset="50%" stop-color="#7bafd4"/><stop offset="100%" stop-color="#bdd7ec"/></linearGradient></defs>
+              <rect x="108" y="222" width="36" height="100" rx="18" fill="url(#wlg)"/>
+              <rect x="168" y="178" width="36" height="188" rx="18" fill="url(#wlg)"/>
+              <rect x="228" y="138" width="36" height="268" rx="18" fill="url(#wlg)"/>
+              <rect x="288" y="172" width="36" height="200" rx="18" fill="url(#wlg)"/>
+              <rect x="348" y="210" width="36" height="124" rx="18" fill="url(#wlg)"/>
+            </svg>
+          </div>
+          <div id="wiz-0">
+            <div class="wizard-hero"><h2 data-i18n="wiz_welcome">Welcome to WaveScript</h2><p data-i18n="wiz_desc">Transcribe audio &amp; video files and translate subtitles — all locally on your machine.</p></div>
+            <div class="step-counter" data-i18n="wiz_step0">Step 1 of 4 — Language</div>
+            <div class="card">
+              <div class="card-title" data-i18n="wiz_lang_title">Choose Your Language</div>
+              <p style="font-size:13px;color:var(--text2);margin-bottom:14px;" data-i18n="wiz_lang_desc">Select the interface language for WaveScript.</p>
+              <select id="wiz-language" style="font-size:14px;padding:12px 16px;">
+                <option value="en" selected>English</option>
+                <option value="bg">Български</option>
+                <option value="mk">Македонски</option>
+                <option value="sr">Српски</option>
+              </select>
+            </div>
+            <div class="wizard-actions"><button class="btn btn-ghost wiz-skip-btn" style="display:none;" data-i18n="skip_setup">Skip Setup</button><button class="btn btn-primary" id="wiz-next-0" data-i18n="continue">Continue →</button></div>
+          </div>
+          <div id="wiz-1" style="display:none;">
+            <div class="step-counter" data-i18n="wiz_step1">Step 2 of 4 — Whisper Engine</div>
+            <div class="card"><div class="card-title" data-i18n="wiz_whisper_title">Whisper.cpp Speech Engine</div><div id="whisper-status"></div><p style="font-size:13px;color:var(--text2);margin:14px 0 12px;" data-i18n="wiz_whisper_desc">Whisper.cpp runs speech recognition locally on your PC.</p><div style="display:flex;gap:10px;margin-bottom:14px;"><button class="btn btn-primary" id="wiz-dl-whisper" style="flex:1;" data-i18n="wiz_dl_whisper">⬇ Download Whisper.cpp Automatically</button><button class="btn btn-ghost" id="wiz-browse-whisper" data-i18n="browse">Browse...</button></div><div id="whisper-dl-sec" style="display:none;"><div class="progress-track"><div class="progress-fill" id="whisper-dl-bar"></div></div><div style="display:flex;align-items:center;gap:12px;"><div class="download-status" id="whisper-dl-text" style="flex:1;">Preparing...</div><button class="btn btn-sm btn-danger" id="wiz-cancel-whisper-dl" data-i18n="cancel">Cancel</button></div></div><div class="field" id="whisper-path-row" style="display:none;"><label data-i18n="whisper_cli_path">Whisper CLI Path</label><input type="text" id="wiz-whisper-path" readonly /></div><div class="hint"><a onclick="window.api.openUrl('https://github.com/ggml-org/whisper.cpp/releases')" data-i18n="wiz_advanced">Advanced: download manually</a></div></div>
+            <div class="wizard-actions"><button class="btn btn-ghost wiz-skip-btn" style="display:none;" data-i18n="skip_setup">Skip Setup</button><button class="btn btn-ghost" id="wiz-back-1" data-i18n="back">← Back</button><button class="btn btn-primary" id="wiz-next-1" data-i18n="continue">Continue →</button></div>
+          </div>
+          <div id="wiz-2" style="display:none;"><div class="step-counter" data-i18n="wiz_step2">Step 3 of 4 — Whisper Model</div><div class="card"><div class="card-title" data-i18n="wiz_model_title">Choose a Speech Recognition Model</div><p style="font-size:13px;color:var(--text2);margin-bottom:14px;" data-i18n="wiz_model_desc">Larger models are more accurate but slower.</p><div id="model-choices"></div></div><div id="model-dl-sec" style="display:none;"><div class="card"><div class="card-title" data-i18n="downloading_model">Downloading Model</div><div class="progress-track"><div class="progress-fill" id="model-dl-bar"></div></div><div style="display:flex;align-items:center;gap:12px;"><div class="download-status" id="model-dl-text" style="flex:1;">Preparing...</div><button class="btn btn-sm btn-danger" id="wiz-cancel-dl" data-i18n="cancel">Cancel</button></div></div></div><div class="wizard-actions"><button class="btn btn-ghost wiz-skip-btn" style="display:none;" data-i18n="skip_setup">Skip Setup</button><button class="btn btn-ghost" id="wiz-back-2" data-i18n="back">← Back</button><button class="btn btn-primary" id="wiz-next-2" data-i18n="dl_continue">Download &amp; Continue →</button></div></div>
+          <div id="wiz-3" style="display:none;"><div class="step-counter" data-i18n="wiz_step3">Step 4 of 4 — DeepL Translation</div><div class="card"><div class="card-title" data-i18n="deepl_api_key">DeepL API Key</div><p style="font-size:13px;color:var(--text2);margin-bottom:14px;" data-i18n="wiz_deepl_desc">Free tier: 500,000 characters/month.</p><div class="field"><label data-i18n="api_key">API Key</label><input type="password" id="wiz-deepl-key" placeholder="Paste your DeepL API key..." /></div><div class="hint"><a onclick="window.api.openUrl('https://www.deepl.com/pro-api')" data-i18n="wiz_deepl_link">Create a free DeepL account</a>. <span data-i18n="wiz_skip">You can skip this and add it later.</span></div></div><div class="wizard-actions"><button class="btn btn-ghost wiz-skip-btn" style="display:none;" data-i18n="skip_setup">Skip Setup</button><button class="btn btn-ghost" id="wiz-back-3" data-i18n="back">← Back</button><button class="btn btn-primary" id="wiz-finish" data-i18n="finish_setup">Finish Setup ✓</button></div></div>
+        </div>
+      </div>
+
+      <!-- ═══ TRANSCRIBE ═══ -->
+      <div id="tab-transcribe" class="panel">
+        <div class="page-title" data-i18n="transcribe">Transcribe</div>
+        <div class="page-desc" data-i18n="transcribe_desc">Transcribe audio and video files locally with Whisper</div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div class="card-title" style="margin-bottom:0;" id="tr-queue-title" data-i18n="input_files">Input Files</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-sm btn-ghost" id="tr-add-files"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> <span data-i18n="add_files">Add files</span></button>
+              <button class="btn btn-sm btn-ghost" id="tr-add-folder"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> <span data-i18n="add_folder">Add folder</span></button>
+              <button class="btn btn-sm btn-ghost" id="tr-clear-all" style="display:none;" data-i18n="clear_all">Clear all</button>
+            </div>
+          </div>
+          <div id="tr-dropzone" class="dropzone">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p style="font-size:14px;color:var(--text2);margin:0 0 4px;" data-i18n="drop_files">Drop files here or click Add files</p>
+            <p style="font-size:12px;color:var(--muted);margin:0;" data-i18n="supported_formats">Supports MP4, MP3, WAV, M4A, FLAC, OGG, WEBM</p>
+          </div>
+          <div id="tr-queue-list" style="display:none;"></div>
+          <div id="tr-queue-summary" style="display:none;font-size:12px;color:var(--muted);margin-top:12px;"></div>
+        </div>
+        <div class="card"><div class="card-title" data-i18n="options">Options</div>
+          <div class="two-col">
+            <div class="field"><label data-i18n="language">Language</label><select id="tr-lang"><option value="auto" data-i18n="auto_detect">Auto-detect</option><option value="en">English</option><option value="bg">Bulgarian</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="pt">Portuguese</option><option value="ru">Russian</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="zh">Chinese</option><option value="nl">Dutch</option><option value="pl">Polish</option><option value="tr">Turkish</option><option value="uk">Ukrainian</option><option value="cs">Czech</option><option value="ro">Romanian</option><option value="sr">Serbian</option><option value="mk">Macedonian</option><option value="hr">Croatian</option></select></div>
+            <div class="field"><label data-i18n="output_format">Output Format</label><select id="tr-fmt"><option value="srt">SRT Subtitles (.srt)</option><option value="vtt">WebVTT (.vtt)</option><option value="txt">Plain Text (.txt)</option><option value="lrc">LRC Lyrics (.lrc)</option><option value="csv">CSV (.csv)</option><option value="json">JSON (.json)</option><option value="wts">Word Timestamps (.wts)</option></select></div>
+          </div>
+          <div class="two-col" style="margin-top:13px;">
+            <div class="field" style="margin-bottom:0;"><label data-i18n="whisper_model">Whisper Model</label><select id="tr-model"></select><div class="hint" id="tr-model-hint" style="margin-top:4px;"></div></div>
+            <div class="field" style="margin-bottom:0;"><label data-i18n="cpu_threads">CPU Threads</label><select id="tr-threads"></select></div>
+          </div>
+          <input type="hidden" id="tr-cpus" value="1" />
+          <div class="two-col" style="margin-top:16px;">
+            <div class="field">
+              <label data-i18n="test_mode_label" style="visibility:hidden;">Test</label>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <input type="checkbox" id="tr-test-mode" style="accent-color:var(--accent);width:16px;height:16px;cursor:pointer;" />
+                <label for="tr-test-mode" style="margin:0;cursor:pointer;" data-i18n="test_mode">Test mode — process first:</label>
+              </div>
+              <div id="tr-duration-row" style="display:none;margin-top:8px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <input type="range" id="tr-duration" min="10" max="300" value="30" step="5" style="flex:1;accent-color:var(--accent);" />
+                  <span id="tr-duration-val" style="font-size:13px;color:var(--accent2);font-weight:600;min-width:50px;text-align:right;">30s</span>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label data-i18n="segment_length">Segment Length</label>
+              <select id="tr-maxlen">
+                <option value="0" data-i18n="seg_auto">Automatic (Whisper decides)</option>
+                <option value="42" data-i18n="seg_standard">Standard subtitles (42 chars)</option>
+                <option value="60" data-i18n="seg_long">Long lines (60 chars)</option>
+                <option value="80" data-i18n="seg_very_long">Very long lines (80 chars)</option>
+                <option value="20" data-i18n="seg_short">Short lines (20 chars)</option>
+                <option value="custom" data-i18n="seg_custom">Custom...</option>
+              </select>
+              <input type="number" id="tr-maxlen-custom" min="1" max="500" placeholder="Enter characters..." style="display:none;margin-top:8px;padding:9px 13px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;width:100%;outline:none;" />
+            </div>
+          </div>
+          <div class="field"><label data-i18n="output_dir">Output Directory (optional)</label><div class="input-row"><input type="text" id="tr-outdir" readonly data-i18n-placeholder="same_as_input" placeholder="Same as input file..." /><button class="btn btn-sm btn-icon" id="tr-browse-outdir" data-i18n="browse">Browse</button></div></div>
+          <div style="margin-top:13px;display:flex;align-items:center;gap:8px;">
+            <input type="checkbox" id="tr-auto-translate" style="accent-color:var(--accent);width:16px;height:16px;cursor:pointer;" />
+            <label for="tr-auto-translate" style="margin:0;cursor:pointer;" data-i18n="auto_translate">Auto-translate after transcription</label>
+          </div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-danger btn-action" id="tr-cancel" style="display:none;" data-i18n="cancel">Cancel</button>
+          <button class="btn btn-primary btn-action" id="tr-start" data-i18n="start_transcription">▶ Start Transcription</button>
+        </div>
+        <div id="tr-processing" class="card" style="display:none;margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+            <div class="wave-anim" id="tr-wave"><span></span><span></span><span></span><span></span><span></span></div>
+            <strong data-i18n="processing">Processing</strong>
+            <span id="tr-timer" style="font-size:13px;color:var(--muted);font-family:'Consolas',monospace;"></span>
+            <span id="tr-percent" style="margin-left:auto;color:var(--accent2);font-size:14px;font-weight:600;"></span>
+          </div>
+          <div class="progress-track"><div class="progress-fill" id="tr-bar"></div></div>
+          <div style="font-size:12px;color:var(--muted);" id="tr-progress-text" data-i18n="transcribing_whisper">Transcribing with Whisper...</div>
+        </div>
+        <div id="tr-result" class="card" style="display:none;margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <strong data-i18n="result">Result</strong>
+          </div>
+          <div class="result-box" id="tr-result-text"></div>
+          <div class="result-actions">
+            <button class="btn btn-ghost btn-sm result-search-toggle" data-target="tr"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span data-i18n="search">Search</span></button>
+            <button class="btn btn-ghost btn-sm" id="tr-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> <span data-i18n="copy">Copy</span></button>
+            <button class="btn btn-ghost btn-sm" id="tr-to-translate" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <span data-i18n="translate_file">Translate this file</span></button>
+            <button class="btn btn-primary btn-sm" id="tr-openfolder" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> <span data-i18n="open_folder">Open Folder</span></button>
+          </div>
+        </div>
+        <div class="status" id="tr-status"></div>
+      </div>
+
+      <!-- ═══ TRANSLATE ═══ -->
+      <div id="tab-translate" class="panel">
+        <div class="page-title" data-i18n="translate">Translate</div><div class="page-desc" data-i18n="translate_desc">Translate subtitle files using DeepL</div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <div class="card-title" style="margin-bottom:0;" id="tl-queue-title" data-i18n="input_files">Input Files</div>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-sm btn-ghost" id="tl-add-files"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg> <span data-i18n="add_files">Add files</span></button>
+              <button class="btn btn-sm btn-ghost" id="tl-clear-all" style="display:none;" data-i18n="clear_all">Clear all</button>
+            </div>
+          </div>
+          <div id="tl-dropzone" class="dropzone">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom:8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p style="font-size:14px;color:var(--text2);margin:0 0 4px;" data-i18n="drop_srt_files">Drop subtitle files here or click Add files</p>
+            <p style="font-size:12px;color:var(--muted);margin:0;">SRT, VTT, TXT</p>
+          </div>
+          <div id="tl-queue-list" style="display:none;"></div>
+          <div id="tl-queue-summary" style="display:none;font-size:12px;color:var(--muted);margin-top:12px;"></div>
+        </div>
+        <div class="card"><div class="card-title" data-i18n="options">Options</div><div class="two-col"><div class="field"><label data-i18n="target_language">Target Language</label><select id="tl-lang"><option value="bg">Bulgarian</option><option value="en-US">English (US)</option><option value="en-GB">English (UK)</option><option value="de">German</option><option value="fr">French</option><option value="es">Spanish</option><option value="it">Italian</option><option value="pt-PT">Portuguese</option><option value="ru">Russian</option><option value="ja">Japanese</option><option value="ko">Korean</option><option value="zh">Chinese</option><option value="nl">Dutch</option><option value="pl">Polish</option><option value="tr">Turkish</option><option value="uk">Ukrainian</option><option value="cs">Czech</option><option value="ro">Romanian</option><option value="sv">Swedish</option><option value="nb">Norwegian</option></select></div><div class="field"><label data-i18n="output_format">Output Format</label><select id="tl-fmt"><option value="srt">SRT Subtitles (.srt)</option><option value="vtt">WebVTT (.vtt)</option><option value="txt">Plain Text (.txt)</option><option value="lrc">LRC Lyrics (.lrc)</option><option value="csv">CSV (.csv)</option><option value="json">JSON (.json)</option></select></div></div><div class="field" style="margin-top:13px;"><label data-i18n="output_dir">Output Directory (optional)</label><div class="input-row"><input type="text" id="tl-outdir" readonly data-i18n-placeholder="same_as_input" placeholder="Same as input file..." /><button class="btn btn-sm btn-icon" id="tl-browse-outdir" data-i18n="browse">Browse</button></div></div></div>
+        <div class="action-row"><button class="btn btn-danger" id="tl-cancel" style="display:none;" data-i18n="cancel">Cancel</button><button class="btn btn-primary btn-action" id="tl-start" data-i18n="start_translation">▶ Start Translation</button></div>
+        <div id="tl-processing" class="card" style="display:none;margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;"><div class="wave-anim" id="tl-wave"><span></span><span></span><span></span><span></span><span></span></div><strong data-i18n="processing">Processing</strong><span id="tl-timer" style="font-size:13px;color:var(--muted);font-family:'Consolas',monospace;"></span><span id="tl-percent" style="margin-left:auto;color:var(--accent2);font-size:14px;font-weight:600;"></span></div>
+          <div class="progress-track"><div class="progress-fill" id="tl-bar"></div></div>
+          <div style="font-size:12px;color:var(--muted);" id="tl-progress-text" data-i18n="translating_deepl">Translating with DeepL...</div>
+        </div>
+        <div id="tl-result" class="card" style="display:none;margin-top:14px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg><strong data-i18n="result">Result</strong></div>
+          <div class="result-box" id="tl-result-text"></div>
+          <div class="result-actions">
+            <button class="btn btn-ghost btn-sm result-search-toggle" data-target="tl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> <span data-i18n="search">Search</span></button>
+            <button class="btn btn-ghost btn-sm" id="tl-copy"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> <span data-i18n="copy">Copy</span></button>
+            <button class="btn btn-primary btn-sm" id="tl-openfolder" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> <span data-i18n="open_folder">Open Folder</span></button>
+          </div>
+        </div>
+        <div class="status" id="tl-status"></div>
+      </div>
+
+      <!-- ═══ MODELS ═══ -->
+      <div id="tab-models" class="panel">
+        <div class="page-title" data-i18n="models">Models</div><div class="page-desc" data-i18n="models_desc">Manage Whisper speech recognition models</div>
+        <div class="models-tabs">
+          <button class="models-tab active" data-mtab="installed" data-i18n="mdl_installed">Installed</button>
+          <button class="models-tab" data-mtab="all" data-i18n="mdl_all">All models</button>
+          <button class="models-tab" data-mtab="multi" data-i18n="mdl_multi">Multilingual</button>
+          <button class="models-tab" data-mtab="english" data-i18n="mdl_english">English</button>
+        </div>
+        <div id="mdl-panel-installed" class="mdl-panel active"><div id="models-list"></div></div>
+        <div id="mdl-panel-all" class="mdl-panel"><div id="models-avail-all"></div></div>
+        <div id="mdl-panel-multi" class="mdl-panel"><div id="models-avail-multi"></div></div>
+        <div id="mdl-panel-english" class="mdl-panel"><div id="models-avail-english"></div></div>
+        <div id="mdl-dl-sec" style="display:none;margin-top:14px;"><div class="progress-track"><div class="progress-fill" id="mdl-dl-bar"></div></div><div style="display:flex;align-items:center;gap:12px;"><div class="download-status" id="mdl-dl-text" style="flex:1;"></div><button class="btn btn-sm btn-danger" id="mdl-cancel-dl" data-i18n="cancel">Cancel</button></div></div>
+      </div>
+
+      <!-- ═══ SETTINGS ═══ -->
+      <div id="tab-settings" class="panel">
+        <div class="page-title" data-i18n="settings">Settings</div><div class="page-desc" data-i18n="settings_desc">Configure WaveScript</div>
+        <div class="card">
+          <div class="card-title" data-i18n="app_language">Application Language</div>
+          <select id="set-language">
+            <option value="en">English</option>
+            <option value="bg">Български</option>
+            <option value="mk">Македонски</option>
+            <option value="sr">Српски</option>
+          </select>
+        </div>
+        <div class="card"><div class="card-title">Whisper.cpp</div><div class="field"><label data-i18n="whisper_cli_path">Whisper CLI Path</label><div class="input-row"><input type="text" id="set-whisper" placeholder="Path to whisper-cli.exe..." /><button class="btn btn-sm btn-icon" id="set-browse-whisper" data-i18n="browse">Browse</button></div></div></div>
+        <div class="card"><div class="card-title">DeepL</div><div class="field"><label data-i18n="deepl_api_key">DeepL API Key</label><input type="password" id="set-deepl" placeholder="Your API key..." /></div><div class="hint"><a onclick="window.api.openUrl('https://www.deepl.com/pro-api')">Get key at deepl.com/pro-api</a> — <span data-i18n="free_500k">free: 500K chars/month</span></div></div>
+        <div class="card" id="deepl-usage-card" style="display:none;">
+          <div class="card-title" data-i18n="deepl_usage">DeepL Usage</div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+            <span style="font-size:28px;font-weight:700;" id="deepl-used">—</span>
+            <span style="font-size:13px;color:var(--muted);">/ <span id="deepl-limit">500,000</span> <span data-i18n="characters">characters</span></span>
+          </div>
+          <div class="progress-track" style="margin-bottom:8px;"><div class="progress-fill" id="deepl-usage-bar"></div></div>
+          <div style="font-size:12px;color:var(--muted);" id="deepl-remaining"></div>
+        </div>
+        <div class="action-row">
+          <button class="btn btn-primary btn-action" id="set-save" data-i18n="save_settings">Save Settings</button>
+        </div>
+        <div class="status" id="set-status"></div>
+        <div class="card" style="margin-top:16px;"><div class="card-title" data-i18n="setup_wizard">Setup Wizard</div><button class="btn btn-ghost" id="set-rerun" data-i18n="rerun_wizard">Re-run Setup Wizard</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
