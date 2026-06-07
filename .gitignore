@@ -19,3 +19,4 @@ Thumbs.db
 # Temp
 *.log
 temp_audio_*
+.claude/
