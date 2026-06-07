@@ -1,18 +1,24 @@
 # WaveScript — Transcribe & Translate
 
-Desktop app for transcribing audio/video and translating subtitles.
-Uses [Whisper.cpp](https://github.com/ggml-org/whisper.cpp) (local) + [DeepL API](https://www.deepl.com/).
+> Desktop transcription and translation app — local Whisper.cpp + DeepL.
+
+Built with [Whisper.cpp](https://github.com/ggml-org/whisper.cpp) for local speech recognition and the [DeepL API](https://www.deepl.com/) for subtitle translation. Inspired by [TT-Tool](https://github.com/milkotodorov/tt-tool).
+
+---
 
 ## Features
 
-- Local transcription — your audio never leaves your machine
-- 21 source languages + auto-detect
-- 7 output formats: SRT, VTT, TXT, LRC, CSV, JSON, WTS
-- Subtitle translation via DeepL API (20 target languages)
-- Setup wizard for one-click installation of Whisper.cpp + models
-- Voice Activity Detection (VAD) for reliable long-audio transcription
-- Dark/light theme
-- UI in English, Bulgarian, Macedonian, Serbian
+- **Local transcription** — Audio never leaves your machine
+- **21 source languages** + auto-detect
+- **7 output formats** — SRT, VTT, TXT, LRC, CSV, JSON, WTS
+- **Subtitle translation** via DeepL API (20 target languages)
+- **Setup wizard** — One-click install of Whisper.cpp + models
+- **Voice Activity Detection (VAD)** — Reliable transcription on long audio (eliminates Whisper Large V3 hallucinations)
+- **Dark/light theme** with dynamic titlebar overlay
+- **4 UI languages** — English, Bulgarian, Macedonian, Serbian
+- **Cross-platform** — Windows, macOS (Intel + ARM), Linux
+
+---
 
 ## Quick Start
 
@@ -21,7 +27,9 @@ npm install
 npm start
 ```
 
-The first `npm start` will build source files automatically (`prestart` script).
+The first `npm start` runs `build-sources.js` automatically via the `prestart` script. On first launch, the setup wizard guides you through installing Whisper.cpp and downloading a model.
+
+---
 
 ## Project Structure
 
@@ -67,18 +75,19 @@ wavescript/
 └── README.md
 ```
 
+---
+
 ## How the Build Works
 
-Electron on Windows 11 has a blank-screen bug with external JS files in the renderer.
-The `build-sources.js` script solves this by:
+Electron on Windows 11 has a blank-screen bug with external JS files in the renderer. The `build-sources.js` script solves this by:
 
 1. Concatenating `src/main/*.js` → `dist/main.js`
 2. Combining `src/renderer/index.template.html` + all renderer JS → `dist/index.html` (inline JS)
-3. Copying static files (preload.js, styles.css, icons) to `dist/`
+3. Copying static files (`preload.js`, `styles.css`, icons) → `dist/`
 
-You edit source files in `src/`. The `dist/` folder is auto-generated and gitignored.
+You edit source files in `src/`. The `dist/` folder is auto-generated and gitignored. `npm start` runs the build automatically via the `prestart` script.
 
-`npm start` runs the build automatically via the `prestart` script.
+---
 
 ## Build Installer
 
@@ -90,6 +99,10 @@ npm run build:linux         # Linux AppImage + .deb
 npm run build:all           # All platforms
 ```
 
+Build output goes to the `installer/` folder.
+
+---
+
 ## Development with IntelliJ IDEA / WebStorm
 
 1. Open the project folder
@@ -98,16 +111,21 @@ npm run build:all           # All platforms
 4. Create a Run Configuration:
    - Type: **npm**
    - Command: **start**
-5. For debugging: create a **Node.js** configuration with:
+5. For debugging — create a **Node.js** configuration with:
    - Node interpreter: your node path
    - JavaScript file: `node_modules/.bin/electron`
    - Application parameters: `.`
+
+---
 
 ## Credits
 
 - [Whisper.cpp](https://github.com/ggml-org/whisper.cpp) by @ggerganov
 - [DeepL API](https://www.deepl.com/)
 - Inspired by [TT-Tool](https://github.com/milkotodorov/tt-tool) by @milkotodorov
+- [Silero VAD](https://github.com/snakers4/silero-vad) for voice activity detection
+
+---
 
 ## License
 
