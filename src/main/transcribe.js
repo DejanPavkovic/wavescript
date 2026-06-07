@@ -138,6 +138,34 @@ ipcMain.handle("transcribe", async (_, opts) => {
           if (content.match(/-\d+:-\d+:-\d+/)) {
             warnings.push("timestamp_negative");
           }
+          // Detect looping hallucinations (e.g. tiny model producing Welsh token
+          // loops like "i'r i'r i'r i'r..." on audio it can't decode)
+          if (fmt === "srt") {
+            const blocks = content.trim().split(/\n\n+/);
+            const blockTexts = blocks.map(b => {
+              const lines = b.trim().split("\n");
+              return lines.length >= 3 ? lines.slice(2).join(" ").toLowerCase().trim() : "";
+            }).filter(t => t.length > 0);
+            // 5+ consecutive identical blocks = hallucination loop
+            let hasHallucinations = false;
+            for (let i = 0; i <= blockTexts.length - 5; i++) {
+              if (blockTexts[i] && blockTexts[i+1] === blockTexts[i] &&
+                  blockTexts[i+2] === blockTexts[i] && blockTexts[i+3] === blockTexts[i] &&
+                  blockTexts[i+4] === blockTexts[i]) {
+                hasHallucinations = true;
+                break;
+              }
+            }
+            // Fallback: 15+ consecutive repeated words within a single block
+            if (!hasHallucinations) {
+              const loopRe = /(\S+(?:\s+\S+)?)(?:\s+\1){14,}/i;
+              hasHallucinations = blocks.some(b => {
+                const lines = b.trim().split("\n");
+                return lines.length >= 3 && loopRe.test(lines.slice(2).join(" "));
+              });
+            }
+            if (hasHallucinations) warnings.push("hallucinations_detected");
+          }
         } catch (e) { /* validation is best-effort, don't block on errors */ }
 
         resolve({ success: true, outputFile: finalOut, warnings: warnings });

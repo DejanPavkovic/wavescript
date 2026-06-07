@@ -379,6 +379,8 @@
               warnMsg += fw.name + ": " + t("warn_timestamp_stuck") + " ";
             } else if (warn === "timestamp_negative") {
               warnMsg += fw.name + ": " + t("warn_timestamp_negative") + " ";
+            } else if (warn === "hallucinations_detected") {
+              warnMsg += fw.name + ": " + t("warn_hallucinations_detected") + " ";
             }
           }
         }
@@ -403,11 +405,8 @@
       showMsg("tr-status", "err", t("select_input"));
       return;
     }
-    // Reset statuses for any non-done items
     for (var i = 0; i < trQueue.length; i++) {
-      if (trQueue[i].status !== "done") {
-        trQueue[i].status = "waiting"; trQueue[i].pct = 0;
-      }
+      trQueue[i].status = "waiting"; trQueue[i].pct = 0;
     }
     runQueue();
   });
@@ -415,7 +414,6 @@
   // Cancel
   $("#tr-cancel").addEventListener("click", async function() {
     trQueueRunning = false;
-    if (trTimerInterval) { clearInterval(trTimerInterval); trTimerInterval = null; }
     await window.api.cancelTranscribe();
   });
 
